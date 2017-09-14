@@ -157,13 +157,15 @@ namespace WordGuessGame
                         {
                             progress[i] = letter;
                         }
-                        else
+                        else if (progress[i] == '\0')
                         {
                             progress[i] = '_';
                         }
                     }
                 }
             }
+            Console.WriteLine($"You've gotten {new string(progress.ToArray())} so far!");
+            Console.Read();
         }
 
         static void ResumeGame()
