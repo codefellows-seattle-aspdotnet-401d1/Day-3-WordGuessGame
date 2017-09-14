@@ -22,6 +22,8 @@ namespace lab03_tom
                 Console.WriteLine("2. View text file");
                 Console.WriteLine("3. Add text");
                 Console.WriteLine("4. Delete text");
+                Console.WriteLine("5. Exit");
+
                 int input = Convert.ToInt32(Console.ReadLine());
                 return input;
             }
@@ -39,11 +41,17 @@ namespace lab03_tom
 
             if (!File.Exists(filePath))
             {
-                using (FileStream fs = File.Create(filePath))
+                using (StreamWriter sw = File.CreateText(filePath))
                 {
-                    Byte[] myText = new System.Text.UTF8Encoding(true).GetBytes("This is my text");
-                    fs.Write(myText, 0, myText.Length);
+                    sw.WriteLine("hippo");
+                    sw.WriteLine("code");
+                    sw.WriteLine("meow");
                 }
+                //using (FileStream fs = File.Create(filePath))
+                //{
+                //    Byte[] myText = new System.Text.UTF8Encoding(true).GetBytes("This is my text");
+                //    fs.Write(myText, 0, myText.Length);
+                //}
             }
 
             int selection = HomeNav();
@@ -51,7 +59,7 @@ namespace lab03_tom
             switch (selection)
             {
                 case 1:
-                    Game();
+                    Game(filePath);
                     break;
                 case 2:
                     ViewText(filePath);
@@ -62,6 +70,9 @@ namespace lab03_tom
                 case 4:
                     DeleteText(filePath);
                     break;
+                case 5:
+                    ExitGame();
+                    break;
                 default:
                     Console.WriteLine("Please Choose from available options");
                     InputHandler();
@@ -69,11 +80,47 @@ namespace lab03_tom
             }
         }
 
-        static public void Game()
+        static public void Game(string filePath)
         {
-            Console.WriteLine("Game");
-            InputHandler();
 
+            string[] words = File.ReadAllLines(filePath);
+            var r = new Random();
+            var randomLineNumber = r.Next(0, words.Length - 1);
+            string line = words[randomLineNumber];
+
+
+            Console.WriteLine("Guess the mystery word!");
+            string guess = Console.ReadLine();
+
+            if (guess == line)
+            {
+                Console.WriteLine("You got it!");
+            }
+            else
+            {
+                Console.WriteLine($"Wrong! The word you failed to guess was {line}");
+            }
+            //string[] words = File.ReadAllLines(filePath);
+            //int length = words.Length;
+            //Console.WriteLine("Guess the mystery word!");
+            //string guess = Console.ReadLine();
+            //foreach (string line in words)
+            //{
+            //    Console.WriteLine(line);
+            //    if (guess == line)
+            //    {
+            //        Console.WriteLine("You got it!");
+            //        break;
+            //    }
+
+            //}
+
+
+        }
+
+        static public void ExitGame()
+        {
+            Console.WriteLine("Goodbye! Press return to exit.");
         }
 
         static public void ViewText(string filePath)
@@ -100,7 +147,7 @@ namespace lab03_tom
             using (StreamWriter sw = File.AppendText(filePath))
             {
                 Console.WriteLine("Enter a new mystery word!");
-                sw.Write(Environment.NewLine);
+                //sw.Write(Environment.NewLine);
                 sw.WriteLine(Console.ReadLine());
             }
             InputHandler();
@@ -110,9 +157,8 @@ namespace lab03_tom
         static public void DeleteText(string filePath)
         {
             File.Delete(filePath);
-            Console.WriteLine("your file has been deleted");
+            Console.WriteLine("Your file has been deleted. Press Return to exit.");
             Console.Read();
-            InputHandler();
 
         }
 
