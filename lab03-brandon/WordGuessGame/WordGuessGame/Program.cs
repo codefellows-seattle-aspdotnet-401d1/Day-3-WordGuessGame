@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 
 namespace WordGuessGame
 {
@@ -38,31 +39,83 @@ namespace WordGuessGame
                         break;
                 }
             }
+            catch (FormatException fe)
+            {
+                Console.WriteLine("Invalid text entered.");
+                Console.Read();
+            }
             catch (Exception ex)
             {
-                Console.WriteLine($"{ex.InnerException}: Exception has occurred. Press any key to return to Main Menu.");
+                Console.WriteLine($"{ex.GetType()} has occurred. Press Enter to exit.");
                 Console.Read();
-                MainMenu();
-
             }
         }
 
         static void GameMenu()
         {
+            Console.Clear();
+            Console.WriteLine("What would you like to do?");
+            Console.WriteLine("1) Start New Game");
+            Console.WriteLine("2) Resume Game");
+            Console.WriteLine("0) Return to Main Menu");
+            try
+            {
+                switch (Convert.ToInt32(Console.ReadLine()))
+                {
+                    case 1:
+                        StartNewGame();
+                        break;
+                    case 2:
+                        ResumeGame();
+                        break;
+                    case 0:
+                        MainMenu();
+                        break;
+                    default:
+                        GameMenu();
+                        break;
+                }
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
+        }
+
+        static string[] ReadWordFile()
+        {
+            string filePath = @"C:\Users\akure\Desktop\CodeFellows\WordGame.txt";
+
+            if (!File.Exists(filePath))
+            {
+                using (FileStream fs = File.Create(filePath))
+                {
+                    Byte[] newWords = new System.Text.UTF8Encoding(true).GetBytes("potato");
+                    fs.Write(newWords, 0, newWords.Length);
+                }
+                using (StreamReader sr = File.OpenText(filePath))
+                {
+                    string[] words = File.ReadAllLines(filePath);
+                    return words;
+                }
+            }
+            else
+            {
+                using (StreamReader sr = File.OpenText(filePath))
+                {
+                    string[] words = File.ReadAllLines(filePath);
+                    return words;
+                }
+            }
+        }
+
+        static void EditWordFile()
+        {
 
         }
 
         static void CreateWordFile()
-        {
-
-        }
-
-        static void ReadWordFile()
-        {
-
-        }
-
-        static void EditWordFile()
         {
 
         }
