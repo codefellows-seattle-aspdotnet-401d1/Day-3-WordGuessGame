@@ -89,11 +89,7 @@ namespace WordGuessGame
 
             if (!File.Exists(filePath))
             {
-                using (FileStream fs = File.Create(filePath))
-                {
-                    Byte[] newWords = new System.Text.UTF8Encoding(true).GetBytes("potato");
-                    fs.Write(newWords, 0, newWords.Length);
-                }
+                CreateWordFile(filePath);
                 using (StreamReader sr = File.OpenText(filePath))
                 {
                     string[] words = File.ReadAllLines(filePath);
@@ -115,9 +111,14 @@ namespace WordGuessGame
 
         }
 
-        static void CreateWordFile()
+        static void CreateWordFile(string filePath)
         {
-
+            using (FileStream fs = File.Create(filePath))
+            {
+                Byte[] newWords = new System.Text.UTF8Encoding(true).GetBytes("potato");
+                fs.Write(newWords, 0, newWords.Length);
+            }
+            
         }
 
         static void AddWordToFile()
@@ -140,9 +141,12 @@ namespace WordGuessGame
 
         }
 
-        static void SelectRandomWord()
+        static string SelectRandomWord()
         {
-
+            string[] words = ReadWordFile();
+            Random rnd = new Random();
+            string randomWord = words[rnd.Next(0, (words.Length - 1))];
+            return randomWord;
         }
 
 
