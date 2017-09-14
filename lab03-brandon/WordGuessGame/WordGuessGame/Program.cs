@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 
 namespace WordGuessGame
 {
@@ -63,7 +64,8 @@ namespace WordGuessGame
                 switch (Convert.ToInt32(Console.ReadLine()))
                 {
                     case 1:
-                        StartNewGame();
+                        string randomWord = SelectRandomWord();
+                        StartNewGame(randomWord);
                         break;
                     case 2:
                         ResumeGame();
@@ -131,9 +133,29 @@ namespace WordGuessGame
 
         }
 
-        static void StartNewGame()
+        static void StartNewGame(string randomWord)
         {
-
+            Console.Clear();
+            Console.WriteLine("A random word has been chosen!");
+            Console.WriteLine($"The word is {randomWord.Length} letters long.");
+            char[] progress = new char[randomWord.Length];
+            Console.WriteLine("Please guess one or more letters:");
+            string guess = Console.ReadLine().ToLower();
+            char[] randomWordArray = randomWord.ToArray();
+            foreach (var letter in guess.ToArray())
+            {
+                if (randomWordArray.Contains(letter))
+                {
+                    Console.WriteLine($"The word contains a {letter}.");
+                    for (int i = 0; i < randomWord.Length; i++)
+                    {
+                        if (letter == randomWordArray[i])
+                        {
+                            progress[i] = letter;
+                        }
+                    }
+                }
+            }
         }
 
         static void ResumeGame()
