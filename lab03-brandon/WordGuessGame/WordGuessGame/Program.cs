@@ -123,9 +123,13 @@ namespace WordGuessGame
             
         }
 
-        static void AddWordToFile()
+        static void AddWordToFile(string filePath)
         {
-
+            using (StreamWriter sw = File.AppendText(filePath))
+            {
+                sw.Write(Environment.NewLine);
+                sw.WriteLine(Console.ReadLine().Trim().ToLower());
+            }
         }
 
         static void RemoveWordFromFile()
@@ -152,6 +156,10 @@ namespace WordGuessGame
                         if (letter == randomWordArray[i])
                         {
                             progress[i] = letter;
+                        }
+                        else
+                        {
+                            progress[i] = '_';
                         }
                     }
                 }
