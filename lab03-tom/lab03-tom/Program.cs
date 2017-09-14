@@ -82,19 +82,38 @@ namespace lab03_tom
 
         static public void Game(string filePath)
         {
+
             string[] words = File.ReadAllLines(filePath);
-            int length = words.Length;
+            var r = new Random();
+            var randomLineNumber = r.Next(0, words.Length - 1);
+            string line = words[randomLineNumber];
+
+
             Console.WriteLine("Guess the mystery word!");
             string guess = Console.ReadLine();
-            foreach (string line in words)
-            {
-                if (guess == line)
-                {
-                    Console.WriteLine("You got it!");
-                    break;
-                }
 
+            if (guess == line)
+            {
+                Console.WriteLine("You got it!");
             }
+            else
+            {
+                Console.WriteLine($"Wrong! The word you failed to guess was {line}");
+            }
+            //string[] words = File.ReadAllLines(filePath);
+            //int length = words.Length;
+            //Console.WriteLine("Guess the mystery word!");
+            //string guess = Console.ReadLine();
+            //foreach (string line in words)
+            //{
+            //    Console.WriteLine(line);
+            //    if (guess == line)
+            //    {
+            //        Console.WriteLine("You got it!");
+            //        break;
+            //    }
+
+            //}
 
 
         }
