@@ -143,28 +143,32 @@ namespace WordGuessGame
             Console.WriteLine("A random word has been chosen!");
             Console.WriteLine($"The word is {randomWord.Length} letters long.");
             char[] progress = new char[randomWord.Length];
-            Console.WriteLine("Please guess one or more letters:");
-            string guess = Console.ReadLine().ToLower();
-            char[] randomWordArray = randomWord.ToArray();
-            foreach (var letter in guess.ToArray())
+            do
             {
-                if (randomWordArray.Contains(letter))
+                Console.WriteLine("Please guess one or more letters:");
+                string guess = Console.ReadLine().ToLower();
+                char[] randomWordArray = randomWord.ToArray();
+                foreach (var letter in guess.ToArray())
                 {
-                    Console.WriteLine($"The word contains a {letter}.");
-                    for (int i = 0; i < randomWord.Length; i++)
+                    if (randomWordArray.Contains(letter))
                     {
-                        if (letter == randomWordArray[i])
+                        Console.WriteLine($"The word contains {letter}.");
+                        for (int i = 0; i < randomWord.Length; i++)
                         {
-                            progress[i] = letter;
-                        }
-                        else if (progress[i] == '\0')
-                        {
-                            progress[i] = '_';
+                            if (letter == randomWordArray[i])
+                            {
+                                progress[i] = letter;
+                            }
+                            else if (progress[i] == '\0')
+                            {
+                                progress[i] = '_';
+                            }
                         }
                     }
                 }
-            }
-            Console.WriteLine($"You've gotten {new string(progress.ToArray())} so far!");
+                Console.WriteLine($"You've gotten {new string(progress.ToArray())} so far!");
+            } while (new string(progress.ToArray()) != new string(randomWord.ToArray()));
+            Console.WriteLine("You did it!");
             Console.Read();
         }
 
