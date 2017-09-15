@@ -120,11 +120,12 @@ namespace WordGuessGame
                 Byte[] newWords = new System.Text.UTF8Encoding(true).GetBytes("potato");
                 fs.Write(newWords, 0, newWords.Length);
             }
-            
+
         }
 
         static void AddWordToFile(string filePath)
         {
+            Console.WriteLine("What word would you like to add to the file?");
             using (StreamWriter sw = File.AppendText(filePath))
             {
                 sw.Write(Environment.NewLine);
@@ -132,9 +133,23 @@ namespace WordGuessGame
             }
         }
 
-        static void RemoveWordFromFile()
+        static void RemoveWordFromFile(string filePath)
         {
-
+            Console.WriteLine("What word would you like to remove from the file?");
+            string wordToRemove = Console.ReadLine();
+            string oldWords;
+            string n = "";
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                while ((oldWords = sr.ReadLine()) != null)
+                {
+                    if (!oldWords.Contains(wordToRemove))
+                    {
+                        n += oldWords + Environment.NewLine;
+                    }
+                }
+            }
+            File.WriteAllText(filePath, n);
         }
 
         static void StartNewGame(string randomWord)

@@ -673,11 +673,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\akure\\Source\\Repos\\Day-3-WordGuessGame\\lab03-brandon\\WordGuessGame\\WordGuessGame\\WordGuessGame.csproj",
+      "projectUniqueName": "C:\\Users\\akure\\source\\repos\\Day-3-WordGuessGame\\lab03-brandon\\WordGuessGame\\WordGuessGame\\WordGuessGame.csproj",
       "projectName": "WordGuessGame",
-      "projectPath": "C:\\Users\\akure\\Source\\Repos\\Day-3-WordGuessGame\\lab03-brandon\\WordGuessGame\\WordGuessGame\\WordGuessGame.csproj",
+      "projectPath": "C:\\Users\\akure\\source\\repos\\Day-3-WordGuessGame\\lab03-brandon\\WordGuessGame\\WordGuessGame\\WordGuessGame.csproj",
       "packagesPath": "C:\\Users\\akure\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\akure\\Source\\Repos\\Day-3-WordGuessGame\\lab03-brandon\\WordGuessGame\\WordGuessGame\\obj\\",
+      "outputPath": "C:\\Users\\akure\\source\\repos\\Day-3-WordGuessGame\\lab03-brandon\\WordGuessGame\\WordGuessGame\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
