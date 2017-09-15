@@ -1,0 +1,11 @@
+C:\Users\acohr\source\repos\Day-3-WordGuessGame\word-guessing\bin\Debug\netcoreapp2.0\word-guessing.deps.json
+C:\Users\acohr\source\repos\Day-3-WordGuessGame\word-guessing\bin\Debug\netcoreapp2.0\word-guessing.runtimeconfig.json
+C:\Users\acohr\source\repos\Day-3-WordGuessGame\word-guessing\bin\Debug\netcoreapp2.0\word-guessing.runtimeconfig.dev.json
+C:\Users\acohr\source\repos\Day-3-WordGuessGame\word-guessing\bin\Debug\netcoreapp2.0\word-guessing.dll
+C:\Users\acohr\source\repos\Day-3-WordGuessGame\word-guessing\bin\Debug\netcoreapp2.0\word-guessing.pdb
+C:\Users\acohr\source\repos\Day-3-WordGuessGame\word-guessing\obj\Debug\netcoreapp2.0\word-guessing.csprojResolveAssemblyReference.cache
+C:\Users\acohr\source\repos\Day-3-WordGuessGame\word-guessing\obj\Debug\netcoreapp2.0\word-guessing.csproj.CoreCompileInputs.cache
+C:\Users\acohr\source\repos\Day-3-WordGuessGame\word-guessing\obj\Debug\netcoreapp2.0\word-guessing.AssemblyInfoInputs.cache
+C:\Users\acohr\source\repos\Day-3-WordGuessGame\word-guessing\obj\Debug\netcoreapp2.0\word-guessing.AssemblyInfo.cs
+C:\Users\acohr\source\repos\Day-3-WordGuessGame\word-guessing\obj\Debug\netcoreapp2.0\word-guessing.dll
+C:\Users\acohr\source\repos\Day-3-WordGuessGame\word-guessing\obj\Debug\netcoreapp2.0\word-guessing.pdb
