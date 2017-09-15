@@ -16,8 +16,7 @@ namespace WordGuessGame
             Console.Clear();
             Console.WriteLine("Please enter a number for your selection:");
             Console.WriteLine("1) Game Menu");
-            Console.WriteLine("2) Read Word File");
-            Console.WriteLine("3) Add/Remove Words");
+            Console.WriteLine("2) Add/Remove Words");
             Console.WriteLine("0) Exit Game");
             string filePath = @"C:\Users\akure\Desktop\CodeFellows\WordGame.txt";
             try
@@ -25,12 +24,9 @@ namespace WordGuessGame
                 switch (Convert.ToInt32(Console.ReadLine()))
                 {
                     case 1:
-                        GameMenu();
+                        GameMenu(filePath);
                         break;
                     case 2:
-                        ReadWordFile(filePath);
-                        break;
-                    case 3:
                         EditWordFile(filePath);
                         break;
                     case 0:
@@ -53,7 +49,7 @@ namespace WordGuessGame
             }
         }
 
-        static void GameMenu()
+        static void GameMenu(string filePath)
         {
             Console.Clear();
             Console.WriteLine("What would you like to do?");
@@ -64,21 +60,21 @@ namespace WordGuessGame
                 switch (Convert.ToInt32(Console.ReadLine()))
                 {
                     case 1:
-                        string randomWord = SelectRandomWord();
+                        string randomWord = SelectRandomWord(filePath);
                         StartNewGame(randomWord);
                         break;
                     case 0:
                         MainMenu();
                         break;
                     default:
-                        GameMenu();
+                        GameMenu(filePath);
                         break;
                 }
             }
             catch (Exception)
             {
-
-                throw;
+                Console.WriteLine("You did something wrong. Shutting down.");
+                Console.Read();
             }
         }
 
@@ -106,6 +102,7 @@ namespace WordGuessGame
 
         static void EditWordFile(string filePath)
         {
+            Console.Clear();
             Console.WriteLine("What would you like to do?");
             Console.WriteLine("1) Add a word");
             Console.WriteLine("2) Remove a word");
@@ -114,9 +111,11 @@ namespace WordGuessGame
             {
                 case 1:
                     AddWordToFile(filePath);
+                    EditWordFile(filePath);
                     break;
                 case 2:
                     RemoveWordFromFile(filePath);
+                    EditWordFile(filePath);
                     break;
                 case 0:
                     MainMenu();
@@ -202,9 +201,9 @@ namespace WordGuessGame
             Console.Read();
         }
 
-        static string SelectRandomWord()
+        static string SelectRandomWord(string filePath)
         {
-            string[] words = ReadWordFile();
+            string[] words = ReadWordFile(filePath);
             Random rnd = new Random();
             string randomWord = words[rnd.Next(0, (words.Length - 1))];
             return randomWord;
