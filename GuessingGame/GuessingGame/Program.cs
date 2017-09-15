@@ -153,7 +153,7 @@ namespace GuessingGame
                         userInput = null;
                         Console.WriteLine("Which word would you like to try and remove?");
                         var wordToBeRemoved = Console.ReadLine();
-                        AddWord(filePath, wordToBeRemoved);
+                        DeleteWord(filePath, wordToBeRemoved);
                         break;
                     case "4":
                         userInput = null;
