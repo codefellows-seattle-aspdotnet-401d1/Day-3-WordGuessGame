@@ -9,3 +9,14 @@ C:\Projects\Day-3-WordGuessGame\GuessingGame\GuessingGame\bin\Debug\netcoreapp2.
 C:\Projects\Day-3-WordGuessGame\GuessingGame\GuessingGame\bin\Debug\netcoreapp2.0\GuessingGame.pdb
 C:\Projects\Day-3-WordGuessGame\GuessingGame\GuessingGame\obj\Debug\netcoreapp2.0\GuessingGame.dll
 C:\Projects\Day-3-WordGuessGame\GuessingGame\GuessingGame\obj\Debug\netcoreapp2.0\GuessingGame.pdb
+C:\projects\401d1\WordGuessingGame\GuessingGame\GuessingGame\bin\Debug\netcoreapp2.0\GuessingGame.deps.json
+C:\projects\401d1\WordGuessingGame\GuessingGame\GuessingGame\bin\Debug\netcoreapp2.0\GuessingGame.runtimeconfig.json
+C:\projects\401d1\WordGuessingGame\GuessingGame\GuessingGame\bin\Debug\netcoreapp2.0\GuessingGame.runtimeconfig.dev.json
+C:\projects\401d1\WordGuessingGame\GuessingGame\GuessingGame\bin\Debug\netcoreapp2.0\GuessingGame.dll
+C:\projects\401d1\WordGuessingGame\GuessingGame\GuessingGame\bin\Debug\netcoreapp2.0\GuessingGame.pdb
+C:\projects\401d1\WordGuessingGame\GuessingGame\GuessingGame\obj\Debug\netcoreapp2.0\GuessingGame.csprojResolveAssemblyReference.cache
+C:\projects\401d1\WordGuessingGame\GuessingGame\GuessingGame\obj\Debug\netcoreapp2.0\GuessingGame.csproj.CoreCompileInputs.cache
+C:\projects\401d1\WordGuessingGame\GuessingGame\GuessingGame\obj\Debug\netcoreapp2.0\GuessingGame.AssemblyInfoInputs.cache
+C:\projects\401d1\WordGuessingGame\GuessingGame\GuessingGame\obj\Debug\netcoreapp2.0\GuessingGame.AssemblyInfo.cs
+C:\projects\401d1\WordGuessingGame\GuessingGame\GuessingGame\obj\Debug\netcoreapp2.0\GuessingGame.dll
+C:\projects\401d1\WordGuessingGame\GuessingGame\GuessingGame\obj\Debug\netcoreapp2.0\GuessingGame.pdb
