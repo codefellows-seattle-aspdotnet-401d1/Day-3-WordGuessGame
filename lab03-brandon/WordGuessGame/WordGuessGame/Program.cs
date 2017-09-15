@@ -19,6 +19,7 @@ namespace WordGuessGame
             Console.WriteLine("2) Read Word File");
             Console.WriteLine("3) Add/Remove Words");
             Console.WriteLine("0) Exit Game");
+            string filePath = @"C:\Users\akure\Desktop\CodeFellows\WordGame.txt";
             try
             {
                 switch (Convert.ToInt32(Console.ReadLine()))
@@ -27,10 +28,10 @@ namespace WordGuessGame
                         GameMenu();
                         break;
                     case 2:
-                        ReadWordFile();
+                        ReadWordFile(filePath);
                         break;
                     case 3:
-                        EditWordFile();
+                        EditWordFile(filePath);
                         break;
                     case 0:
                         break;
@@ -85,9 +86,8 @@ namespace WordGuessGame
             }
         }
 
-        static string[] ReadWordFile()
+        static string[] ReadWordFile(string filePath)
         {
-            string filePath = @"C:\Users\akure\Desktop\CodeFellows\WordGame.txt";
 
             if (!File.Exists(filePath))
             {
@@ -108,9 +108,28 @@ namespace WordGuessGame
             }
         }
 
-        static void EditWordFile()
+        static void EditWordFile(string filePath)
         {
-
+            Console.WriteLine("What would you like to do?");
+            Console.WriteLine("1) Add a word");
+            Console.WriteLine("2) Remove a word");
+            Console.WriteLine("0) Return to Main Menu");
+            switch (Convert.ToInt32(Console.ReadLine()))
+            {
+                case 1:
+                    AddWordToFile(filePath);
+                    break;
+                case 2:
+                    RemoveWordFromFile(filePath);
+                    break;
+                case 0:
+                    MainMenu();
+                    break;
+                default:
+                    Console.WriteLine("I didn't understand, please try again.");
+                    EditWordFile(filePath);
+                    break;
+            }
         }
 
         static void CreateWordFile(string filePath)
