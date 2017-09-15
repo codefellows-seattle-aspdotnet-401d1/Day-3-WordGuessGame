@@ -73,11 +73,14 @@ namespace GuessingGame
                 CreateFile(filePath);
                 using (StreamWriter sw = File.AppendText(filePath))
                 {
-                    foreach (var word in buffer)
+                    foreach (var word in newBuffer)
                     {
                         sw.WriteLine(word);
                     }
                 }
+                Console.WriteLine($"You have remove \"{userInput}\" from the dictionary.");
+                Console.WriteLine("The current dictionary is...");
+                ViewDictionary(filePath);
             }
             else
             {
@@ -96,7 +99,6 @@ namespace GuessingGame
         static void ViewDictionary(string filePath)
         {
             var currentStrings = ReadDictionary(filePath);
-            Console.WriteLine("Here is the current list of words in your dictionary");
             foreach (var line in currentStrings)
             {
                 Console.WriteLine(line);
@@ -126,7 +128,6 @@ namespace GuessingGame
             Console.WriteLine("4. Play Game");
             Console.WriteLine("5. Exit Game");
 
-          
         }
 
     }
