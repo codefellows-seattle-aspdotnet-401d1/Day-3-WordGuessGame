@@ -16,21 +16,18 @@ namespace WordGuessGame
             Console.Clear();
             Console.WriteLine("Please enter a number for your selection:");
             Console.WriteLine("1) Game Menu");
-            Console.WriteLine("2) Read Word File");
-            Console.WriteLine("3) Add/Remove Words");
+            Console.WriteLine("2) Add/Remove Words");
             Console.WriteLine("0) Exit Game");
+            string filePath = @"C:\Users\akure\Desktop\CodeFellows\WordGame.txt";
             try
             {
                 switch (Convert.ToInt32(Console.ReadLine()))
                 {
                     case 1:
-                        GameMenu();
+                        GameMenu(filePath);
                         break;
                     case 2:
-                        ReadWordFile();
-                        break;
-                    case 3:
-                        EditWordFile();
+                        EditWordFile(filePath);
                         break;
                     case 0:
                         break;
@@ -52,42 +49,37 @@ namespace WordGuessGame
             }
         }
 
-        static void GameMenu()
+        static void GameMenu(string filePath)
         {
             Console.Clear();
             Console.WriteLine("What would you like to do?");
             Console.WriteLine("1) Start New Game");
-            Console.WriteLine("2) Resume Game");
             Console.WriteLine("0) Return to Main Menu");
             try
             {
                 switch (Convert.ToInt32(Console.ReadLine()))
                 {
                     case 1:
-                        string randomWord = SelectRandomWord();
+                        string randomWord = SelectRandomWord(filePath);
                         StartNewGame(randomWord);
-                        break;
-                    case 2:
-                        ResumeGame();
                         break;
                     case 0:
                         MainMenu();
                         break;
                     default:
-                        GameMenu();
+                        GameMenu(filePath);
                         break;
                 }
             }
             catch (Exception)
             {
-
-                throw;
+                Console.WriteLine("You did something wrong. Shutting down.");
+                Console.Read();
             }
         }
 
-        static string[] ReadWordFile()
+        static string[] ReadWordFile(string filePath)
         {
-            string filePath = @"C:\Users\akure\Desktop\CodeFellows\WordGame.txt";
 
             if (!File.Exists(filePath))
             {
@@ -108,9 +100,31 @@ namespace WordGuessGame
             }
         }
 
-        static void EditWordFile()
+        static void EditWordFile(string filePath)
         {
-
+            Console.Clear();
+            Console.WriteLine("What would you like to do?");
+            Console.WriteLine("1) Add a word");
+            Console.WriteLine("2) Remove a word");
+            Console.WriteLine("0) Return to Main Menu");
+            switch (Convert.ToInt32(Console.ReadLine()))
+            {
+                case 1:
+                    AddWordToFile(filePath);
+                    EditWordFile(filePath);
+                    break;
+                case 2:
+                    RemoveWordFromFile(filePath);
+                    EditWordFile(filePath);
+                    break;
+                case 0:
+                    MainMenu();
+                    break;
+                default:
+                    Console.WriteLine("I didn't understand, please try again.");
+                    EditWordFile(filePath);
+                    break;
+            }
         }
 
         static void CreateWordFile(string filePath)
@@ -120,11 +134,12 @@ namespace WordGuessGame
                 Byte[] newWords = new System.Text.UTF8Encoding(true).GetBytes("potato");
                 fs.Write(newWords, 0, newWords.Length);
             }
-            
+
         }
 
         static void AddWordToFile(string filePath)
         {
+            Console.WriteLine("What word would you like to add to the file?");
             using (StreamWriter sw = File.AppendText(filePath))
             {
                 sw.Write(Environment.NewLine);
@@ -132,9 +147,23 @@ namespace WordGuessGame
             }
         }
 
-        static void RemoveWordFromFile()
+        static void RemoveWordFromFile(string filePath)
         {
-
+            Console.WriteLine("What word would you like to remove from the file?");
+            string wordToRemove = Console.ReadLine();
+            string oldWords;
+            string n = "";
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                while ((oldWords = sr.ReadLine()) != null)
+                {
+                    if (!oldWords.Contains(wordToRemove))
+                    {
+                        n += oldWords + Environment.NewLine;
+                    }
+                }
+            }
+            File.WriteAllText(filePath, n);
         }
 
         static void StartNewGame(string randomWord)
@@ -172,14 +201,9 @@ namespace WordGuessGame
             Console.Read();
         }
 
-        static void ResumeGame()
+        static string SelectRandomWord(string filePath)
         {
-
-        }
-
-        static string SelectRandomWord()
-        {
-            string[] words = ReadWordFile();
+            string[] words = ReadWordFile(filePath);
             Random rnd = new Random();
             string randomWord = words[rnd.Next(0, (words.Length - 1))];
             return randomWord;
