@@ -673,11 +673,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\Kyler\\source\\repos\\Day-3-WordGuessGame\\Lab03-Kyle\\Lab03-Kyle\\Lab03-Kyle.csproj",
+      "projectUniqueName": "C:\\Users\\Kyler\\Source\\Repos\\Day-3-WordGuessGame2\\Lab03-Kyle\\Lab03-Kyle\\Lab03-Kyle.csproj",
       "projectName": "Lab03-Kyle",
-      "projectPath": "C:\\Users\\Kyler\\source\\repos\\Day-3-WordGuessGame\\Lab03-Kyle\\Lab03-Kyle\\Lab03-Kyle.csproj",
+      "projectPath": "C:\\Users\\Kyler\\Source\\Repos\\Day-3-WordGuessGame2\\Lab03-Kyle\\Lab03-Kyle\\Lab03-Kyle.csproj",
       "packagesPath": "C:\\Users\\Kyler\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\Kyler\\source\\repos\\Day-3-WordGuessGame\\Lab03-Kyle\\Lab03-Kyle\\obj\\",
+      "outputPath": "C:\\Users\\Kyler\\Source\\Repos\\Day-3-WordGuessGame2\\Lab03-Kyle\\Lab03-Kyle\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
