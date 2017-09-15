@@ -142,8 +142,7 @@ namespace WordGuessGame
             Console.WriteLine("What word would you like to add to the file?");
             using (StreamWriter sw = File.AppendText(filePath))
             {
-                sw.Write(Environment.NewLine);
-                sw.WriteLine(Console.ReadLine().Trim().ToLower());
+                sw.WriteLine(Console.ReadLine().Trim().ToLower() + Environment.NewLine);
             }
         }
 
