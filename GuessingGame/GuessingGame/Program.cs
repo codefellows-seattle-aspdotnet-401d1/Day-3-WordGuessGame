@@ -16,7 +16,7 @@ namespace GuessingGame
             }
             catch (Exception e)
             {
-                Console.WriteLine(e);
+                Console.WriteLine($"{e.GetType()}: an Exeption has occured. Contact System admin for more details...");
             }
         }
 
@@ -48,17 +48,44 @@ namespace GuessingGame
             if (ReadDictionary(filePath).Contains(userInput.Trim()))
                 Console.WriteLine("This word is already part of the dictioanry...");
             else
-                using (var sw = File.AppendText(filePath))
+                using (StreamWriter sw = File.AppendText(filePath))
                 {
-                    sw.WriteLine(userInput);
+                    sw.WriteLine(userInput.ToLower());
                     Console.WriteLine($"You have added \"{userInput}\" to the dictionary list...");
                 }
             ViewDictionary(filePath);
         }
 
-        static void DeleteWord(string filePath)
+        static void DeleteWord(string filePath, string userInput)
         {
-            
+            string[] buffer = ReadDictionary(filePath);
+            if (buffer.Contains(userInput.ToLower()))
+            {
+                for (int i = 0; i < buffer.Length; i++)
+                {
+                    if (buffer[i] == userInput.ToLower().Trim())
+                    {
+                        buffer[i] = null;
+                    }
+                }
+                string[] newBuffer = buffer.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                File.Delete(filePath);
+                CreateFile(filePath);
+                using (StreamWriter sw = File.AppendText(filePath))
+                {
+                    foreach (var word in buffer)
+                    {
+                        sw.WriteLine(word);
+                    }
+                }
+            }
+            else
+            {
+                Console.WriteLine($"The word {userInput} is not part of the dictionary");
+            }
+            Console.WriteLine("Press Anykey to continue...");
+            Console.Read();
+            GameInitialize(filePath);
         }
         //
         //        static string ChooseWord()
