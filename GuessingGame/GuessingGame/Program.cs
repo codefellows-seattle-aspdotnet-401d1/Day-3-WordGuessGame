@@ -9,7 +9,7 @@ namespace GuessingGame
     {
         static void Main(string[] args)
         {
-            var filePath = @"C:\Projects\Day-3-WordGuessGame\GuessingGame\GuessingGame\assets\words_alpha.txt";
+            string filePath = $@"{Directory.GetCurrentDirectory()}\assets\words_alpha.txt";
             try
             {
                 GameInitialize(filePath);
@@ -31,9 +31,9 @@ namespace GuessingGame
 
         static string[] ReadDictionary(string filePath)
         {
-            using (var sr = File.OpenText(filePath))
+            using (StreamReader sr = File.OpenText(filePath))
             {
-                var words = File.ReadAllLines(filePath);
+                string[] words = File.ReadAllLines(filePath);
                 string[] dictionaryList = new string[words.Length];
                 for (int line = 1; line < words.Length; line++)
                 {
@@ -73,7 +73,7 @@ namespace GuessingGame
                 CreateFile(filePath);
                 using (StreamWriter sw = File.AppendText(filePath))
                 {
-                    foreach (var word in newBuffer)
+                    foreach (string word in newBuffer)
                     {
                         sw.WriteLine(word);
                     }
@@ -93,8 +93,8 @@ namespace GuessingGame
     
         static void ViewDictionary(string filePath)
         {
-            var currentStrings = ReadDictionary(filePath);
-            foreach (var line in currentStrings)
+            string[] currentStrings = ReadDictionary(filePath);
+            foreach (string line in currentStrings)
             {
                 Console.WriteLine(line);
             }
@@ -122,7 +122,6 @@ namespace GuessingGame
             Console.WriteLine("3. Remove Word from Dictionary List");
             Console.WriteLine("4. Play Game");
             Console.WriteLine("5. Exit Game");
-
         }
 
     }
