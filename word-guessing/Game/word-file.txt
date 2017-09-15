@@ -1,0 +1,10 @@
+pickle
+jumanji
+carrot
+hippo
+jedi
+harpoon
+stonehenge
+whiskey
+tango
+foxtrot
