@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Text;
 
 namespace GuessingGame
 {
@@ -7,45 +8,73 @@ namespace GuessingGame
     {
         static void Main(string[] args)
         {
-        }
-
-        public bool CreateFile()
-        {
-
-            return true;
-        }
-
-        public static string[] ReadDictionary()
-        {
-            var filePath = @"C:\projects\401d1\Day-3-WordGuessGame\GuessingGame\GuessingGame\assets\words_alpha.txt";
-            if (!File.Exists(filePath))
+            var filePath = @"C:\Projects\Day-3-WordGuessGame\GuessingGame\GuessingGame\assets\words_alpha.txt";
+            try
             {
-                using (StreamReader sr = File.OpenText(filePath))
-                {
-                    string[] words = File.ReadAllLines(filePath);
-                    return words;
-                }
+                GameInitialize(filePath);
+            }
+            catch (Exception e)
+            {
+                Console.WriteLine(e);
+                throw;
+            }
+
+        }
+
+        static void CreateFile(string filePath)
+        {
+            using (FileStream fs = File.Create(filePath))
+            {
+                Byte[] info = new UTF8Encoding().GetBytes("This is the dictionary of words:");
+                fs.Write(info, 0, info.Length);
             }
         }
 
-        public static bool UpdateFile()
+        static string[] ReadDictionary(string filePath)
         {
-            return true;
-        }
-        public bool DeleteWord()
-        {
-            return true;
+            using (var sr = File.OpenText(filePath))
+            {
+                var words = File.ReadAllLines(filePath);
+                string[] dictionaryList = new string[words.Length];
+                for (int line = 1; line < words.Length; line++)
+                {
+                    dictionaryList[line] += words[line];
+                }
+                return dictionaryList;
+            }
         }
 
-        public static string ChooseWord()
+        static string[] UpdateFile(string filePath, string userInput)
         {
-            return string;
+            return ReadDictionary(filePath);
         }
 
-        public static string ViewDictionary()
+        static void GameInitialize(string filePath)
         {
-            return string;
+            if (!File.Exists(filePath))
+            {
+                CreateFile(filePath);
+                ReadDictionary(filePath);
+            }
+            else
+            {
+                ReadDictionary(filePath);
+            }
         }
+        //        static bool DeleteWord()
+        //        {
+        //            return true;
+        //        }
+        //
+        //        static string ChooseWord()
+        //        {
+        //            return string;
+        //        }
+        //
+        //        static string ViewDictionary()
+        //        {
+        //            return string;
+        //        }
     }
 }
-
+//
