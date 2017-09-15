@@ -45,7 +45,7 @@ namespace WordGuessGame
         // It handles Home navigation as well as game navigation
         static int MenuPrompt(string[] menu)
         {
-            string filePath = @"D:\Lab03\wordsFile.txt";
+            string filePath = @"C:\Lab03\wordsFile.txt";
             Console.WriteLine();
             Console.WriteLine("Guess Game Menu");
             Console.WriteLine();
@@ -64,7 +64,7 @@ namespace WordGuessGame
                     return PlayGame();
                 case 2:
                     Console.WriteLine(menu[0] + menu[2]);
-                    return ExitGame();
+                    return NewGame();
                 case 3:
                     Console.WriteLine(menu[0] + menu[3]);
                     return ViewWords(filePath);
@@ -112,7 +112,7 @@ namespace WordGuessGame
         // play the game
         static int PlayGame()
         {
-            bool playing = true;
+            /*bool playing = true;
             string[] menu = new string[] {
                 "You selected: ",
                 "1. Guess a letter",
@@ -141,7 +141,8 @@ namespace WordGuessGame
                     Console.WriteLine();
                 }
             }
-            Console.WriteLine("Game Over!");
+            Console.WriteLine("Game Over!");*/
+            Console.WriteLine("Sorry, this part of the game is still under construction!");
             return 1;
         }
 
@@ -160,15 +161,42 @@ namespace WordGuessGame
         static int ViewWords(string filePath)
         {
             // just display all the words
-            Console.WriteLine("Sorry, this part of the game is still under construction!");
+
+            if (!File.Exists(filePath))
+            {
+                CreateFile(filePath);
+            }
+            else
+            {
+                ReadFile(filePath);
+            }
             return 4;
         }
 
         // add a word to the text file
         static int AddWords(string filePath)
         {
-
-        return 5;
+            // take text input TODO will probably need a text validation helper method
+            Console.WriteLine();
+            Console.WriteLine("Please enter a word to add.");
+            string newWord = Console.ReadLine();
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    CreateFile(filePath);
+                }
+                else
+                {
+                    // send the filepath and the new word we just got to be appended
+                    AppendText(filePath, newWord);
+                }
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("The Directory you suggested does not exist");
+            }
+            return 5;
         }
 
 
@@ -179,6 +207,7 @@ namespace WordGuessGame
             // take text input for the word to be deleted 
             // search for the word in the file and delete it
             Console.WriteLine("Sorry, this part of the game is still under construction!");
+            // RemoveWords(filePath);
             return 6;
         }
         // exit the game
@@ -190,17 +219,41 @@ namespace WordGuessGame
 
         /***** private helper methods *****/
 
+        // add a word to the file
+        private static void AppendText(string filePath, string newWord)
+        {
+            using (StreamWriter sw = File.AppendText(filePath))
+            {
+                sw.WriteLine(newWord);
+                Console.Write($" Added {newWord} to the game.");
+            }
+        }
+
         // create the file if it doesn't exist
-        private static void NoFile(string filePath)
+        private static void CreateFile(string filePath)
         {
             using (FileStream fs = File.Create(filePath))
             {
-                // TODO make this better, byte isn't good
+                // TODO make this better, byte is not the best
                 Byte[] myText = new UTF8Encoding(true).GetBytes("fiddlesticks");
-
                 fs.Write(myText, 0, myText.Length);
             }
         }
+        // read the file
+        private static void ReadFile(string filePath)
+        {
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                string[] words = File.ReadAllLines(filePath);
+                foreach(string word in words)
+                {
+                    Console.WriteLine(word);
+                }
+            }
+        }
+        // delete the file
+        // VS suggested I do this, pretty cool
+        private static void DeleteFile(string filePath) => File.Delete(filePath);
     }
 }
 
