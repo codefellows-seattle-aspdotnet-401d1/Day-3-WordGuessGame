@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Linq;
 using System.Text;
 
 namespace GuessingGame
@@ -42,29 +43,40 @@ namespace GuessingGame
             }
         }
 
-        static string[] UpdateFile(string filePath, string userInput)
+        static void AddWord(string filePath, string userInput)
         {
-            string[] currentStrings = ReadDictionary(filePath);
-            return currentStrings;
+            if (ReadDictionary(filePath).Contains(userInput.Trim()))
+                Console.WriteLine("This word is already part of the dictioanry...");
+            else
+                using (var sw = File.AppendText(filePath))
+                {
+                    sw.WriteLine(userInput);
+                    Console.WriteLine($"You have added \"{userInput}\" to the dictionary list...");
+                }
+            ViewDictionary(filePath);
         }
 
-        //        static bool DeleteWord()
-        //        {
-        //            return true;
-        //        }
+        static void DeleteWord(string filePath)
+        {
+            
+        }
         //
         //        static string ChooseWord()
         //        {
         //            return string;
         //        }
         //
-        private static void ViewDictionary(string filePath)
+        static void ViewDictionary(string filePath)
         {
             var currentStrings = ReadDictionary(filePath);
+            Console.WriteLine("Here is the current list of words in your dictionary");
             foreach (var line in currentStrings)
             {
                 Console.WriteLine(line);
             }
+            Console.WriteLine("Press Anykey to continue ...");
+            Console.Read();
+            GameInitialize(filePath);
         }
 
         static void GameInitialize(string filePath)
@@ -78,15 +90,16 @@ namespace GuessingGame
             {
                 ReadDictionary(filePath);
             }
+            Console.Clear();
             Console.WriteLine("Please Select an option:");
             Console.WriteLine();
             Console.WriteLine("1. View Current Dictionary List");
-            Console.WriteLine("2. Update Current Dictionary List");
+            Console.WriteLine("2. Add word to Dictionary List");
             Console.WriteLine("3. Remove Word from Dictionary List");
             Console.WriteLine("4. Play Game");
             Console.WriteLine("5. Exit Game");
 
-            string playersChoice = Console.ReadLine();
+          
         }
 
     }
