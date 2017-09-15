@@ -58,7 +58,6 @@ namespace WordGuessGame
             Console.Clear();
             Console.WriteLine("What would you like to do?");
             Console.WriteLine("1) Start New Game");
-            Console.WriteLine("2) Resume Game");
             Console.WriteLine("0) Return to Main Menu");
             try
             {
@@ -67,9 +66,6 @@ namespace WordGuessGame
                     case 1:
                         string randomWord = SelectRandomWord();
                         StartNewGame(randomWord);
-                        break;
-                    case 2:
-                        ResumeGame();
                         break;
                     case 0:
                         MainMenu();
@@ -204,11 +200,6 @@ namespace WordGuessGame
             } while (new string(progress.ToArray()) != new string(randomWord.ToArray()));
             Console.WriteLine("You did it!");
             Console.Read();
-        }
-
-        static void ResumeGame()
-        {
-
         }
 
         static string SelectRandomWord()
