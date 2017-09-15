@@ -90,12 +90,7 @@ namespace GuessingGame
             Console.Read();
             GameInitialize(filePath);
         }
-        //
-        //        static string ChooseWord()
-        //        {
-        //            return string;
-        //        }
-        //
+    
         static void ViewDictionary(string filePath)
         {
             var currentStrings = ReadDictionary(filePath);
@@ -132,4 +127,4 @@ namespace GuessingGame
 
     }
 }
-//
+
