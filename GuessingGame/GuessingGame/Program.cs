@@ -16,9 +16,7 @@ namespace GuessingGame
             catch (Exception e)
             {
                 Console.WriteLine(e);
-                throw;
             }
-
         }
 
         static void CreateFile(string filePath)
@@ -46,7 +44,27 @@ namespace GuessingGame
 
         static string[] UpdateFile(string filePath, string userInput)
         {
-            return ReadDictionary(filePath);
+            string[] currentStrings = ReadDictionary(filePath);
+            return currentStrings;
+        }
+
+        //        static bool DeleteWord()
+        //        {
+        //            return true;
+        //        }
+        //
+        //        static string ChooseWord()
+        //        {
+        //            return string;
+        //        }
+        //
+        private static void ViewDictionary(string filePath)
+        {
+            var currentStrings = ReadDictionary(filePath);
+            foreach (var line in currentStrings)
+            {
+                Console.WriteLine(line);
+            }
         }
 
         static void GameInitialize(string filePath)
@@ -60,21 +78,17 @@ namespace GuessingGame
             {
                 ReadDictionary(filePath);
             }
+            Console.WriteLine("Please Select an option:");
+            Console.WriteLine();
+            Console.WriteLine("1. View Current Dictionary List");
+            Console.WriteLine("2. Update Current Dictionary List");
+            Console.WriteLine("3. Remove Word from Dictionary List");
+            Console.WriteLine("4. Play Game");
+            Console.WriteLine("5. Exit Game");
+
+            string playersChoice = Console.ReadLine();
         }
-        //        static bool DeleteWord()
-        //        {
-        //            return true;
-        //        }
-        //
-        //        static string ChooseWord()
-        //        {
-        //            return string;
-        //        }
-        //
-        //        static string ViewDictionary()
-        //        {
-        //            return string;
-        //        }
+
     }
 }
 //
