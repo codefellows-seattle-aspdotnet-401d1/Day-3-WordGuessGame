@@ -1,8 +1,6 @@
 ﻿using System;
-using System.Diagnostics;
 using System.IO;
 using System.Linq;
-using System.Security.Cryptography.X509Certificates;
 using System.Text;
 
 namespace GuessingGame
@@ -63,11 +61,11 @@ namespace GuessingGame
             string[] buffer = ReadDictionary(filePath);
             if (buffer.Contains(userInput.ToLower()))
             {
-                for (int i = 0; i < buffer.Length; i++)
+                for (int line = 1; line < buffer.Length; line++)
                 {
-                    if (buffer[i] == userInput.ToLower().Trim())
+                    if (buffer[line] == userInput.ToLower().Trim())
                     {
-                        buffer[i] = null;
+                        buffer[line] = null;
                     }
                 }
                 string[] newBuffer = buffer.Where(word => !string.IsNullOrEmpty(word)).ToArray();
@@ -75,6 +73,7 @@ namespace GuessingGame
                 CreateFile(filePath);
                 using (StreamWriter sw = File.AppendText(filePath))
                 {
+                    sw.WriteLine(""); // This empty string is to get past the initial line that is created during file creation
                     foreach (string word in newBuffer)
                     {
                         sw.WriteLine(word);
@@ -95,14 +94,19 @@ namespace GuessingGame
     
         static void ViewDictionary(string filePath)
         {
-            string[] currentStrings = ReadDictionary(filePath);
-            foreach (string line in currentStrings)
+            foreach (string word in ReadDictionary(filePath))
             {
-                Console.WriteLine(line);
+                Console.WriteLine(word);
             }
             Console.WriteLine("Press Anykey to continue ...");
             Console.Read();
             GameInitialize(filePath);
+        }
+
+        static string PickRandomWord(string filePath)
+        {
+            Random randomWord = new Random();
+            return ReadDictionary(filePath)[randomWord.Next(0, ReadDictionary(filePath).Length)];
         }
 
         static void GameInitialize(string filePath)
@@ -110,11 +114,6 @@ namespace GuessingGame
             if (!File.Exists(filePath))
             {
                 CreateFile(filePath);
-                ReadDictionary(filePath);
-            }
-            else
-            {
-                ReadDictionary(filePath);
             }
 
 
@@ -137,12 +136,17 @@ namespace GuessingGame
             switch (userInput)
             {
                 case "1":
-                    Console.WriteLine("Here is your current Dictionary");
+                    Console.WriteLine("Here is your current Dictionary...");
                     ViewDictionary(filePath);
                     break;
                 case "2":
                     Console.WriteLine("Which word would you like to add?");
                     var wordToBeAdded = Console.ReadLine();
+                    if (string.IsNullOrEmpty(wordToBeAdded))
+                    {
+                        Console.WriteLine("You didn't enter a word. Please try again ...");
+                        GameInitialize(filePath);
+                    }
                     AddWord(filePath, wordToBeAdded);
                     break;
                 case "3":
@@ -151,8 +155,13 @@ namespace GuessingGame
                     DeleteWord(filePath, wordToBeRemoved);
                     break;
                 case "4":
-                    Console.WriteLine("Coming Soon!");
-                    Console.WriteLine("Press Anykey to continue ...");
+                    if (ReadDictionary(filePath).Length <= 1)
+                    {
+                        Console.WriteLine("You must add words to your dictionary beofore you play. Press Anykey to try again...");
+                        Console.Read();
+                        GameInitialize(filePath);
+                    }
+                    Console.WriteLine(PickRandomWord(filePath));
                     Console.Read();
                     GameInitialize(filePath);
                     break;
@@ -160,9 +169,10 @@ namespace GuessingGame
                     Console.WriteLine("Thank you for playing my game. Have a good day!");
                     Console.WriteLine("Press Anykey to exit...");
                     Console.Read();
+                    Environment.Exit(0);
                     break;
                 default:
-                    Console.WriteLine("You made an invalid choice, press Anykey to try again");
+                    Console.WriteLine("You made an invalid choice, press Anykey to try again...");
                     Console.Read();
                     GameInitialize(filePath);
                     break;
