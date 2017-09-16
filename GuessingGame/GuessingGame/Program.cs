@@ -70,7 +70,7 @@ namespace GuessingGame
                         buffer[i] = null;
                     }
                 }
-                string[] newBuffer = buffer.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                string[] newBuffer = buffer.Where(word => !string.IsNullOrEmpty(word)).ToArray();
                 File.Delete(filePath);
                 CreateFile(filePath);
                 using (StreamWriter sw = File.AppendText(filePath))
@@ -119,63 +119,53 @@ namespace GuessingGame
 
 
             Console.Clear();
-            Console.WriteLine("Please Select an option:");
-            Console.WriteLine();
+
             Console.WriteLine("1. View Current Dictionary List");
             Console.WriteLine("2. Add word to Dictionary List");
             Console.WriteLine("3. Remove Word from Dictionary List");
             Console.WriteLine("4. Play Game");
             Console.WriteLine("5. Exit Game");
+            Console.WriteLine();
+            Console.WriteLine("Please Select an option:");
 
-            string userInput = Console.ReadLine();
-            if (userInput == null)
+            string userInput;
+            do
             {
-                userInput = Console.ReadLine();
+            userInput = Console.ReadLine();
+            } while (string.IsNullOrEmpty(userInput));
 
-            }
-            else
+            switch (userInput)
             {
-                switch (userInput)
-                {
-                    case "1":
-                        userInput = null;
-                        ViewDictionary(filePath);
-                        Console.WriteLine("Here is your current Dictionary");
-
-                        break;
-                    case "2":
-                        userInput = null;
-                        Console.WriteLine("Which word would you like to add?");
-                        var wordToBeAdded = Console.ReadLine();
-                        AddWord(filePath, wordToBeAdded);
-                        break;
-                    case "3":
-                        userInput = null;
-                        Console.WriteLine("Which word would you like to try and remove?");
-                        var wordToBeRemoved = Console.ReadLine();
-                        DeleteWord(filePath, wordToBeRemoved);
-                        break;
-                    case "4":
-                        userInput = null;
-                        Console.WriteLine("Coming Soon!");
-                        Console.WriteLine("Press Anykey to continue ...");
-                        Console.Read();
-                        GameInitialize(filePath);
-                        break;
-                    case "5":
-                        userInput = null;
-                        Console.WriteLine("Thank you for playing my game. Have a good day!");
-                        Console.WriteLine("Press Anykey to exit...");
-                        Console.Read();
-                        break;
-                    default:
-                        userInput = null;
-                        Console.WriteLine("You made an invalid choice, press Anykey to try again");
-                        Console.Read();
-                        GameInitialize(filePath);
-                        break;
-                }
-
+                case "1":
+                    Console.WriteLine("Here is your current Dictionary");
+                    ViewDictionary(filePath);
+                    break;
+                case "2":
+                    Console.WriteLine("Which word would you like to add?");
+                    var wordToBeAdded = Console.ReadLine();
+                    AddWord(filePath, wordToBeAdded);
+                    break;
+                case "3":
+                    Console.WriteLine("Which word would you like to try and remove?");
+                    var wordToBeRemoved = Console.ReadLine();
+                    DeleteWord(filePath, wordToBeRemoved);
+                    break;
+                case "4":
+                    Console.WriteLine("Coming Soon!");
+                    Console.WriteLine("Press Anykey to continue ...");
+                    Console.Read();
+                    GameInitialize(filePath);
+                    break;
+                case "5":
+                    Console.WriteLine("Thank you for playing my game. Have a good day!");
+                    Console.WriteLine("Press Anykey to exit...");
+                    Console.Read();
+                    break;
+                default:
+                    Console.WriteLine("You made an invalid choice, press Anykey to try again");
+                    Console.Read();
+                    GameInitialize(filePath);
+                    break;
             }
         }
     }
