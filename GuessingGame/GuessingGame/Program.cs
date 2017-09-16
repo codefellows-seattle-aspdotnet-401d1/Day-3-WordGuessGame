@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.IO;
 using System.Linq;
 using System.Text;
@@ -16,7 +17,7 @@ namespace GuessingGame
             }
             catch (Exception e)
             {
-                Console.WriteLine($"{e.GetType()}: an Exeption has occured. Contact System admin for more details...");
+                Console.WriteLine($"{e.GetType()}: an Exception has occured. Contact System admin for more details...");
             }
         }
 
@@ -24,7 +25,7 @@ namespace GuessingGame
         {
             using (FileStream fs = File.Create(filePath))
             {
-                Byte[] info = new UTF8Encoding().GetBytes("This is the dictionary of words:");
+                Byte[] info = new UTF8Encoding().GetBytes("");
                 fs.Write(info, 0, info.Length);
             }
         }
@@ -35,7 +36,7 @@ namespace GuessingGame
             {
                 string[] words = File.ReadAllLines(filePath);
                 string[] dictionaryList = new string[words.Length];
-                for (int line = 1; line < words.Length; line++)
+                for (int line = 0; line < words.Length; line++)
                 {
                     dictionaryList[line] += words[line];
                 }
@@ -53,22 +54,21 @@ namespace GuessingGame
                     sw.WriteLine(userInput.ToLower());
                     Console.WriteLine($"You have added \"{userInput}\" to the dictionary list...");
                 }
-            ViewDictionary(filePath);
         }
 
         static void DeleteWord(string filePath, string userInput)
         {
             string[] buffer = ReadDictionary(filePath);
-            if (buffer.Contains(userInput.ToLower()))
+            if (buffer.Contains(userInput.ToLower().Trim()))
             {
-                for (int i = 0; i < buffer.Length; i++)
+                for (int line = 1; line < buffer.Length; line++)
                 {
-                    if (buffer[i] == userInput.ToLower().Trim())
+                    if (buffer[line] == userInput.ToLower().Trim())
                     {
-                        buffer[i] = null;
+                        buffer[line] = null;
                     }
                 }
-                string[] newBuffer = buffer.Where(s => !string.IsNullOrEmpty(s)).ToArray();
+                string[] newBuffer = buffer.Where(word => !string.IsNullOrEmpty(word)).ToArray();
                 File.Delete(filePath);
                 CreateFile(filePath);
                 using (StreamWriter sw = File.AppendText(filePath))
@@ -88,19 +88,43 @@ namespace GuessingGame
             }
             Console.WriteLine("Press Anykey to continue...");
             Console.Read();
-            GameInitialize(filePath);
         }
     
         static void ViewDictionary(string filePath)
         {
-            string[] currentStrings = ReadDictionary(filePath);
-            foreach (string line in currentStrings)
+            foreach (string word in ReadDictionary(filePath))
             {
-                Console.WriteLine(line);
+                Console.WriteLine(word);
             }
             Console.WriteLine("Press Anykey to continue ...");
             Console.Read();
-            GameInitialize(filePath);
+        }
+
+        static string PickRandomWord(string filePath)
+        {
+            Random randomWord = new Random();
+            return ReadDictionary(filePath)[randomWord.Next(0, ReadDictionary(filePath).Length)];
+        }
+
+        static void GameLogic(string randomWord)
+        {
+            string[] characterArray = new string[randomWord.Length];
+            string[] buffer = new string[randomWord.Length];
+            for (int wordIndex = 0; wordIndex < randomWord.Length; wordIndex++)
+            {
+                characterArray[wordIndex] += randomWord[wordIndex];
+                buffer[wordIndex] += "_";
+            }
+            string userInput = Console.ReadLine();
+            if (characterArray.Contains(userInput))
+            {
+                Console.WriteLine("works");
+            }
+            else
+            {
+                Console.WriteLine("Didn't work");
+            }
+            Console.Read();
         }
 
         static void GameInitialize(string filePath)
@@ -108,39 +132,40 @@ namespace GuessingGame
             if (!File.Exists(filePath))
             {
                 CreateFile(filePath);
-                ReadDictionary(filePath);
-            }
-            else
-            {
-                ReadDictionary(filePath);
             }
 
 
             Console.Clear();
-            Console.WriteLine("Please Select an option:");
-            Console.WriteLine();
+
             Console.WriteLine("1. View Current Dictionary List");
             Console.WriteLine("2. Add word to Dictionary List");
             Console.WriteLine("3. Remove Word from Dictionary List");
             Console.WriteLine("4. Play Game");
             Console.WriteLine("5. Exit Game");
+            Console.WriteLine();
+            Console.WriteLine("Please Select an option:");
 
-            string userInput = Console.ReadLine();
-            OptionHandler(filePath, userInput);
-          
-        }
+            string userInput;
+            do
+            {
+            userInput = Console.ReadLine();
+            } while (string.IsNullOrEmpty(userInput));
+            Console.Clear();
 
-        static void OptionHandler(string filePath,string userInput)
-        {
             switch (userInput)
             {
                 case "1":
-                    Console.WriteLine("Here is your current Dictionary");
+                    Console.WriteLine("Here is your current Dictionary...");
                     ViewDictionary(filePath);
                     break;
                 case "2":
                     Console.WriteLine("Which word would you like to add?");
                     var wordToBeAdded = Console.ReadLine();
+                    if (string.IsNullOrEmpty(wordToBeAdded))
+                    {
+                        Console.WriteLine("You didn't enter a word. Please try again ...");
+                        GameInitialize(filePath);
+                    }
                     AddWord(filePath, wordToBeAdded);
                     break;
                 case "3":
@@ -149,23 +174,28 @@ namespace GuessingGame
                     DeleteWord(filePath, wordToBeRemoved);
                     break;
                 case "4":
-                    Console.WriteLine("Coming Soon!");
-                    Console.WriteLine("Press Anykey to continue ...");
-                    Console.Read();
-                    GameInitialize(filePath);
+                    if (ReadDictionary(filePath).Length == 0)
+                    {
+                        Console.WriteLine("You must add words to your dictionary beofore you play. Press Anykey to try again...");
+                        Console.Read();
+                        GameInitialize(filePath);
+                    }
+                    Console.Clear();
+                    GameLogic(PickRandomWord(filePath));
                     break;
                 case "5":
                     Console.WriteLine("Thank you for playing my game. Have a good day!");
                     Console.WriteLine("Press Anykey to exit...");
                     Console.Read();
+                    Environment.Exit(0);
                     break;
                 default:
-                    Console.WriteLine("You made an invalid choice, press Anykey to try again");
+                    Console.WriteLine("You made an invalid choice, press Anykey to try again...");
                     Console.Read();
                     GameInitialize(filePath);
                     break;
             }
-
+            GameInitialize(filePath);
         }
     }
 }

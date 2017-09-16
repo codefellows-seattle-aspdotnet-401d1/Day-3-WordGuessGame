@@ -1,3 +1,0 @@
-This is the dictionary of words:hello
-hello
-hurro
