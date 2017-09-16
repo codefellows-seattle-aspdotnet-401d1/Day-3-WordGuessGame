@@ -4,6 +4,10 @@
     "\\GuessingGame",
     "\\GuessingGame\\GuessingGame"
   ],
+<<<<<<< HEAD
   "SelectedNode": "\\GuessingGame\\GuessingGame.sln",
+=======
+  "SelectedNode": "\\GuessingGame\\GuessingGame\\words_alpha.txt",
+>>>>>>> 977a0eb6d53fa549d30408b522990d71a642bafe
   "PreviewInSolutionExplorer": false
 }
