@@ -669,12 +669,15 @@
   },
   "project": {
     "version": "1.0.0",
+    "restoreSettings": {
+      "hideWarningsAndErrors": true
+    },
     "restore": {
-      "projectUniqueName": "c:\\Projects\\Day-3-WordGuessGame\\GuessingGame\\GuessingGame\\GuessingGame.csproj",
+      "projectUniqueName": "C:\\Projects\\Day-3-WordGuessGame\\GuessingGame\\GuessingGame\\GuessingGame.csproj",
       "projectName": "GuessingGame",
-      "projectPath": "c:\\Projects\\Day-3-WordGuessGame\\GuessingGame\\GuessingGame\\GuessingGame.csproj",
+      "projectPath": "C:\\Projects\\Day-3-WordGuessGame\\GuessingGame\\GuessingGame\\GuessingGame.csproj",
       "packagesPath": "C:\\Users\\Drago\\.nuget\\packages\\",
-      "outputPath": "c:\\Projects\\Day-3-WordGuessGame\\GuessingGame\\GuessingGame\\obj\\",
+      "outputPath": "C:\\Projects\\Day-3-WordGuessGame\\GuessingGame\\GuessingGame\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"

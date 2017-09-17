@@ -1,13 +1,15 @@
 ﻿using System;
-using System.Collections;
+using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Runtime.InteropServices;
 using System.Text;
 
 namespace GuessingGame
 {
     class Program
     {
+        //TODO Change all press Anykey to continue to system pauses to feel less clunky
         static void Main(string[] args)
         {
             string filePath = $@"{Directory.GetCurrentDirectory()}\words_alpha.txt";
@@ -106,25 +108,73 @@ namespace GuessingGame
             return ReadDictionary(filePath)[randomWord.Next(0, ReadDictionary(filePath).Length)];
         }
 
+        static string[] RandomWordIntoArray(string sessionWord)
+        {
+            string[] sessionWordArray = new string[sessionWord.Length];
+            for (int wordIndex = 0; wordIndex < sessionWord.Length; wordIndex++)
+            {
+                sessionWordArray[wordIndex] += sessionWord[wordIndex];
+            }
+            return sessionWordArray;
+        }
+
+        static string[] RandomWordBuffer(string sessionWord)
+        {
+            string[] sessionWordBuffer = new string[sessionWord.Length];
+            for (int wordIndex = 0; wordIndex < sessionWord.Length; wordIndex++)
+            {
+                sessionWordBuffer[wordIndex] += "_";
+            }
+            return sessionWordBuffer;
+        }
+
+        //TODO Refacter GameLogic() method. Create method to handle compairing user input && updating buffer
         static void GameLogic(string randomWord)
         {
-            string[] characterArray = new string[randomWord.Length];
-            string[] buffer = new string[randomWord.Length];
-            for (int wordIndex = 0; wordIndex < randomWord.Length; wordIndex++)
+            string[] characterArray = RandomWordIntoArray(randomWord);
+            string[] buffer = RandomWordBuffer(randomWord);
+
+            int strikes = 3;
+            List<string> inputLog = new List<string>();
+            for (int remainingGuesses = characterArray.Length + strikes; remainingGuesses > 0; remainingGuesses--)
             {
-                characterArray[wordIndex] += randomWord[wordIndex];
-                buffer[wordIndex] += "_";
+                Console.Clear();
+                Console.WriteLine($"You have {remainingGuesses} remaining...");
+                foreach (string index in buffer)
+                { 
+                    Console.Write(index);
+                }
+                Console.WriteLine();
+
+                Console.Write("Please guess a letter: ");
+                string userInput = Console.ReadLine();
+                inputLog.Add(userInput);
+                if (characterArray.Contains(userInput.ToLower()))
+                {
+
+                    for (int index = 0; index < characterArray.Length; index++)
+                    {
+                        if (userInput == characterArray[index])
+                        {
+                            buffer[index] = userInput;
+                        }
+                    }
+                }
+                else
+                {
+                    Console.WriteLine($"{userInput} is not part of the word");
+                    Console.WriteLine("Press Anykey to continue ...");
+                    Console.Read();
+                }
+                if (characterArray.SequenceEqual(buffer))
+                {
+                    remainingGuesses = 0;
+                    Console.Clear();
+                    Console.WriteLine($"Congratulations you've guessed the word {randomWord}!");
+                    Console.WriteLine("Press Anykey to continue ...");
+                    Console.Read();
+                }
             }
-            string userInput = Console.ReadLine();
-            if (characterArray.Contains(userInput))
-            {
-                Console.WriteLine("works");
-            }
-            else
-            {
-                Console.WriteLine("Didn't work");
-            }
-            Console.Read();
         }
 
         static void GameInitialize(string filePath)
@@ -137,13 +187,15 @@ namespace GuessingGame
 
             Console.Clear();
 
+            Console.WriteLine("THREE STRIKES AND YOU'RE OUT!");
+
             Console.WriteLine("1. View Current Dictionary List");
             Console.WriteLine("2. Add word to Dictionary List");
             Console.WriteLine("3. Remove Word from Dictionary List");
             Console.WriteLine("4. Play Game");
             Console.WriteLine("5. Exit Game");
             Console.WriteLine();
-            Console.WriteLine("Please Select an option:");
+            Console.Write("Please Select an option: ");
 
             string userInput;
             do
