@@ -1,0 +1,11 @@
+C:\Users\admin\source\repos\lab03-guessing_game\lab03-guessing-game\lab03-guessing-game\bin\Debug\netcoreapp2.0\lab03-guessing-game.deps.json
+C:\Users\admin\source\repos\lab03-guessing_game\lab03-guessing-game\lab03-guessing-game\bin\Debug\netcoreapp2.0\lab03-guessing-game.runtimeconfig.json
+C:\Users\admin\source\repos\lab03-guessing_game\lab03-guessing-game\lab03-guessing-game\bin\Debug\netcoreapp2.0\lab03-guessing-game.runtimeconfig.dev.json
+C:\Users\admin\source\repos\lab03-guessing_game\lab03-guessing-game\lab03-guessing-game\bin\Debug\netcoreapp2.0\lab03-guessing-game.dll
+C:\Users\admin\source\repos\lab03-guessing_game\lab03-guessing-game\lab03-guessing-game\bin\Debug\netcoreapp2.0\lab03-guessing-game.pdb
+C:\Users\admin\source\repos\lab03-guessing_game\lab03-guessing-game\lab03-guessing-game\obj\Debug\netcoreapp2.0\lab03-guessing-game.csprojResolveAssemblyReference.cache
+C:\Users\admin\source\repos\lab03-guessing_game\lab03-guessing-game\lab03-guessing-game\obj\Debug\netcoreapp2.0\lab03-guessing-game.csproj.CoreCompileInputs.cache
+C:\Users\admin\source\repos\lab03-guessing_game\lab03-guessing-game\lab03-guessing-game\obj\Debug\netcoreapp2.0\lab03-guessing-game.AssemblyInfoInputs.cache
+C:\Users\admin\source\repos\lab03-guessing_game\lab03-guessing-game\lab03-guessing-game\obj\Debug\netcoreapp2.0\lab03-guessing-game.AssemblyInfo.cs
+C:\Users\admin\source\repos\lab03-guessing_game\lab03-guessing-game\lab03-guessing-game\obj\Debug\netcoreapp2.0\lab03-guessing-game.dll
+C:\Users\admin\source\repos\lab03-guessing_game\lab03-guessing-game\lab03-guessing-game\obj\Debug\netcoreapp2.0\lab03-guessing-game.pdb
