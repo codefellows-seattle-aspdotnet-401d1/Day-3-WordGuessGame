@@ -673,11 +673,11 @@
       "hideWarningsAndErrors": true
     },
     "restore": {
-      "projectUniqueName": "C:\\Users\\admin\\source\\repos\\lab03-guessing_game\\lab03-guessing-game\\lab03-guessing-game\\lab03-guessing-game.csproj",
+      "projectUniqueName": "C:\\Users\\admin\\codefellows\\401\\lab03-gregory\\Day-3-WordGuessGame\\lab03-guessing-game\\lab03-guessing-game\\lab03-guessing-game.csproj",
       "projectName": "lab03-guessing-game",
-      "projectPath": "C:\\Users\\admin\\source\\repos\\lab03-guessing_game\\lab03-guessing-game\\lab03-guessing-game\\lab03-guessing-game.csproj",
+      "projectPath": "C:\\Users\\admin\\codefellows\\401\\lab03-gregory\\Day-3-WordGuessGame\\lab03-guessing-game\\lab03-guessing-game\\lab03-guessing-game.csproj",
       "packagesPath": "C:\\Users\\admin\\.nuget\\packages\\",
-      "outputPath": "C:\\Users\\admin\\source\\repos\\lab03-guessing_game\\lab03-guessing-game\\lab03-guessing-game\\obj\\",
+      "outputPath": "C:\\Users\\admin\\codefellows\\401\\lab03-gregory\\Day-3-WordGuessGame\\lab03-guessing-game\\lab03-guessing-game\\obj\\",
       "projectStyle": "PackageReference",
       "fallbackFolders": [
         "C:\\Program Files\\dotnet\\sdk\\NuGetFallbackFolder"
