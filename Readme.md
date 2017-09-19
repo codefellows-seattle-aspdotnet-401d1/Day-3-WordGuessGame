@@ -1,13 +1,14 @@
 ![cf](http://i.imgur.com/7v5ASc8.png) Lab 3 : Word Guess Game
 =====================================
 
-## To Submit this Assignment
-- fork this repository
-- Bring it down to your local machine
-- write all of your code in a new branch named `lab-#`; + `<your name>` **e.g.** `lab03-amanda`
-- push to your repository
-- submit a pull request to this repository
-- submit a link to your PR in canvas
+## ReadMe
+- Your readme should include the following information:
+	- How long did it take you to complete this assignment? It took over 4 hours.
+	- What did you struggle with? Why? How did you solve? I struggled with the portion of the game that tests the user's input when guessing
+		random word.
+	- What did you learn during this assignment? I learned about switch statements in depth and got to use one. I also learned that I could have used more than
+		one switch statement.
+    - What resources did you utilize for this assingment? my peers A LOT
 
 ## Directions
 The directions below mock what an actual client requirements document may contain. It is your job, as a developer, to interpret these directions and 
@@ -24,22 +25,6 @@ she may view, add, and delete words as she wishes. She expects the game to have 
 Using everything you've learned and researched up to this point, create a word guess
 game that will meet all of the requiements described in the user story above. 
  
-
-## ReadMe
-- Your readme should include the following information:
-	- How long did it take you to complete this assignment?
-	- What did you struggle with? Why? How did you solve?
-	- What did you learn during this assignment?
-    - What resources did you utilize for this assingment?
-
-## Components
-- The program (should) contain the following
-    - Suggestion: include methods for each action (Home navigation, View words in the text file, add a word to the text file, Remove words from a text file, exit the game, start a new game, play the game, + any more you may see neccesary)
-    - When playing a game, you should bring in all the words that exist in the text file, and *randomly* select one of the words to output to the conole for the user to guess
-    - You should have a record the letters they have attempted so far
-    - If they guess a correct letter, display that letter in the console for them to refer back to when making guesses (i.e. C _ T S )
-    - Errors should be handled through try/catch statements
-    - You may use any shortcuts or 'helper' methods in this project. Do not create external classes to accomplish this task.
 
 ## Rubric
 - 3pts: Application runs without any errors
