@@ -1,6 +1,7 @@
 ﻿using System;
 using System.IO;
 using System.Text;
+using System.Text.RegularExpressions;
 
 namespace WordGuessGame
 {
@@ -9,87 +10,269 @@ namespace WordGuessGame
         static void Main(string[] args)
         {
             bool playing = true;
+            string filePath = @"wordsFile.txt";
+            string mystery = NewGame(filePath);
+            string mysteryKey = new string((char)95,mystery.Length);
+            string wrong = "";
+
             string[] menu = new string[] {
                 "You selected: ",
-                "1. Play the game",
-                "2. New Game",
-                "3. View words in the game",
-                "4. Add a word to the game",
-                "5. Remove words from the game",
-                "6. Exit the game"
+                "1. Guess a letter",
+                "2. guess a series of letters",
+                "3. New Game",
+                "4. View words in the game",
+                "5. Add a word to the game",
+                "6. Remove a word from the game",
+                "7. Remove all words from the game",
+                "8. Exit the game"
             };
-            // this is a while loop so a player can keep asking questions
-            // this is the main admin menu
+
             while (playing)
             {
-                int playCheck = MenuPrompt(menu);
-                if (playCheck == 6)
+                if (WinCondition(mystery, mysteryKey))
                 {
+                    Console.Write(Environment.NewLine + Environment.NewLine+ $"You win! The word was {mysteryKey}! ");
                     playing = false;
-                    break;
+                    break; 
                 }
-                else if (playCheck == -2)
+
+                Console.WriteLine("   Game Menu                            Administrator Menu" + Environment.NewLine);
+                Console.WriteLine($"{menu[1]}                     {menu[5]}");
+                Console.WriteLine($"{menu[2]}          {menu[6]}");
+                Console.WriteLine($"{menu[3]}                           {menu[7]}");
+                Console.WriteLine($"{menu[4]}             {menu[8]}" + Environment.NewLine);
+
+                PrintProgress(mysteryKey, wrong);
+                
+                switch (NumberInput())
                 {
-                    continue;
-                }
-                else
-                {
-                    Console.WriteLine();
+                    case 1: // get a character as input and check against the answer
+                        Console.WriteLine(menu[0] + menu[1] + Environment.NewLine);
+                        char guess = GuessLetter(mystery);
+                        if (mystery.Contains(guess.ToString()))
+                            mysteryKey = AddCorrect(mystery, mysteryKey, guess);
+                        else
+                            wrong = AddIncorrect(wrong, guess);
+                        break;
+                    case 2: // get a string as input and check against the answer
+                        Console.WriteLine(menu[0] + menu[2] + Environment.NewLine);
+                        string guesses = GuessLetters();
+                        foreach (var k in guesses)
+                        {
+                            if (mystery.Contains(k.ToString()))
+                            {
+                                mysteryKey = AddCorrect(mystery, mysteryKey, k);
+                            } else {
+                                wrong = AddIncorrect(wrong, k);
+                            }
+                        }
+                        break;
+                    case 3:
+                        Console.WriteLine(menu[0] + menu[3] + Environment.NewLine);
+                        mystery = NewGame(filePath);
+                        break;
+                    case 4:
+                        Console.WriteLine(menu[0] + menu[4] + Environment.NewLine);
+                        ViewWords(filePath);
+                        break;
+                    case 5:
+                        Console.WriteLine(menu[0] + menu[5] + Environment.NewLine);
+                        AddWords(filePath);
+                        break;
+                    case 6:
+                        Console.WriteLine(menu[0] + menu[6] + Environment.NewLine);
+                        RemoveWord(filePath);
+                        break;
+                    case 7:
+                        Console.WriteLine(menu[0] + menu[7] + Environment.NewLine);
+                        DeleteWords(filePath);
+                        break;
+                    case 8:
+                        Console.WriteLine(menu[0] + menu[8] + Environment.NewLine);
+                        playing = false;
+                        break;
+                    default:
+                        Console.WriteLine("Invalid selection!" + Environment.NewLine);
+                        break;
                 }
             }
+
             Console.WriteLine("Thanks for playing!");
             Console.Read();
         }
 
-        // This creates a menu using the array passed in
-        // It handles Home navigation as well as game navigation
-        static int MenuPrompt(string[] menu)
-        {
-            string filePath = @"D:\Lab03\wordsFile.txt";
-            Console.WriteLine();
-            Console.WriteLine("Guess Game Menu");
-            Console.WriteLine();
-            Console.WriteLine(menu[1]);
-            Console.WriteLine(menu[2]);
-            Console.WriteLine(menu[3]);
-            Console.WriteLine(menu[4]);
-            Console.WriteLine(menu[5]);
-            Console.WriteLine(menu[6]);
-            Console.WriteLine();
-            // TODO: additional logic for the main or game menu per option
-            switch (NumberInput())
+        /***** Menu items *****/
+
+        // 1. Guess a letter
+        static char GuessLetter(string answers) {
+            char guess = Console.ReadKey().KeyChar;
+
+            if ( answers.Contains(guess.ToString()))
             {
-                case 1:
-                    Console.WriteLine(menu[0] + menu[1]);
-                    return PlayGame();
-                case 2:
-                    Console.WriteLine(menu[0] + menu[2]);
-                    return ExitGame();
-                case 3:
-                    Console.WriteLine(menu[0] + menu[3]);
-                    return ViewWords(filePath);
-                case 4:
-                    Console.WriteLine(menu[0] + menu[4]);
-                    return AddWords(filePath);
-                case 5:
-                    Console.WriteLine(menu[0] + menu[5]);
-                    return RemoveWords(filePath);
-                case 6:
-                    Console.WriteLine(menu[0] + menu[6]);
-                    return ExitGame();
-                default:
-                    Console.WriteLine("Invalid selection!");
-                    return -2;
+                return guess;
             }
+            Console.WriteLine();
+            return guess;
+        }
+        // 2. guess a series of letters
+        static string GuessLetters() => WordInput(5);
+        // 3. start a new game
+        static string NewGame(string filePath) => GetRandomWord(filePath);
+        // 4. View words in the text file
+        static int ViewWords(string filePath)
+        {
+            // just display all the words
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    CreateFile(filePath);
+                }
+
+                // no else required, I still want to print the one word if the file doesn't exist
+                string[] words = ReadFile(filePath);
+                foreach (string word in words)
+                {
+                    Console.WriteLine(word);
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Whoops, something is broken! :(");
+            }
+
+            return 4;
+        }
+        // 5. add a word to the text file
+        static int AddWords(string filePath)
+        {
+            // take text input
+            string newWord = WordInput(20);
+            try
+            {
+                if (!File.Exists(filePath))
+                {
+                    CreateFile(filePath);
+                }
+                else
+                {
+                    // send the filepath and the new word we just got to be appended
+                    AppendFile(filePath, newWord);
+                    Console.Write($" Added {newWord} to the game." + Environment.NewLine);
+                }
+            }
+            catch (DirectoryNotFoundException)
+            {
+                Console.WriteLine("The Directory you suggested does not exist");
+            }
+            return 5;
+        }
+        // 6. Remove a word from a text file
+        static int RemoveWord(string filePath)
+        {
+            try
+            {
+                if (!File.Exists(filePath))
+                { // if the file doesn't exist, just return and don't bother with this
+                    return 6;
+                }
+                // get a word for deletion from input
+                string oldWord = WordInput(20);
+                // pull all the words into an array
+                string[] words = ReadFile(filePath);
+                // search for the word in the array
+                foreach (string word in words)
+                {
+                    if (word == oldWord)
+                    { // if we find the word, do the actual deletion
+                        DeleteFileWord(filePath, oldWord, words);
+                        return 6;
+                    }
+                }
+                // word not found, print a message and return
+                Console.WriteLine($"Sorry, {oldWord} was not found.");
+            } // end try
+            catch
+            {
+                Console.WriteLine("Whoops, something is broken! :(");
+            }
+            return 6;
+        }
+        // 7. delete the file containing the word bank
+        static int DeleteWords(string filePath)
+        {
+            // delete the file containing all the words
+            try
+            {
+                DeleteFile(filePath);
+            }
+            catch (FileNotFoundException)
+            {
+                Console.WriteLine("Sorry, there are no words yet.");
+                return 7;
+            }
+            Console.WriteLine("Word list Deleted.");
+            return 7;
         }
 
+        /***** Game items *****/
+
+        // helper method to grab a new random word from the file
+        private static string GetRandomWord(string filePath)
+        {
+            string[] words = ReadFile(filePath);
+            Random rnd = new Random();
+            return words[rnd.Next(0, words.Length)];
+        }
+
+        private static bool WinCondition(string answers, string answerKey) => answers == answerKey ? true : false;
+
+        private static string AddCorrect(string answers, string answerKey, char one)
+        {
+            char[] key = answerKey.ToCharArray();
+            for (int i = 0; i < answers.Length; i++)
+            {
+                if (answers[i] == one)
+                {
+                    key[i] = one;
+                }
+            }
+            return new string(key);
+        }
+
+        private static string AddIncorrect(string wrong, char one)
+        {
+            StringBuilder newWrong = new StringBuilder();
+            newWrong.Append(wrong);
+            newWrong.Append(one);
+            return newWrong.ToString();
+        }
+
+        private static void PrintProgress(string answerKey, string wrong)
+        {
+            foreach (char i in answerKey)
+            {
+                Console.Write($"{i} ");
+            }
+            Console.Write("                    ");
+            foreach (char j in wrong)
+            {
+                Console.Write($"{j} ");
+            }
+            Console.WriteLine(Environment.NewLine);
+        }
+
+        /***** private helper methods *****/
+        /* The first 2 are integer and text input validation 
+         * The rest are file I/O helper methods. The validation is done above so we should always get good data here */
+
         // this method is input validation to get an integer from the user
-        static int NumberInput()
+        private static int NumberInput()
         {
             bool badInput = true;
-            Console.WriteLine("Please enter an integer");
+            Console.Write("Please enter an integer:  ");
             while (badInput)
-            {// exception block on my only really fragile code
+            {
                 string y = Console.ReadLine();
                 try
                 {
@@ -103,103 +286,113 @@ namespace WordGuessGame
                 catch (Exception monkeybutt)
                 {
                     Console.WriteLine($"You threw an {monkeybutt}! This is probably really bad!");
-                    throw (monkeybutt);
                 }
             }
             return 0;
         }
 
-        // play the game
-        static int PlayGame()
+        // this method is input validation to get text from the user
+        // I looked at MSDN for some string validation help
+        private static string WordInput(int limit)
         {
-            bool playing = true;
-            string[] menu = new string[] {
-                "You selected: ",
-                "1. Guess a letter",
-                "2. guess a series of letters",
-                "3. Show number of correct letters",
-                "4. Show correct guesses",
-                "5. Show incorrect guesses",
-                "6. Exit the game"
-            };
-            // this is a while loop so a player can keep asking questions
-            // this is the menu while playing the game
-            while (playing)
+            bool badInput = true;
+            while (badInput)
             {
-                int playCheck = MenuPrompt(menu);
-                if (playCheck == 2)
+                Console.Write("Please enter a word to add.  ");
+                // I had to look up a couple regex checking strings online, but was not satisfied
+                // TODO fix this: Regex regex1 = new Regex(@"^[^a-zA-Z0-9_@.-]*$");
+                try
                 {
-                    playing = false;
-                    break;
+                    string newWord = Console.ReadLine();
+                    // I'm just checking for null, but ideally would have better validation (see above)
+                    if (newWord == "null" || newWord == "")
+                    {
+                        Console.WriteLine("Bad input found!");
+                        continue;
+                    } else if(newWord.Length > limit)
+                    {
+                        Console.WriteLine("Word too long!!");
+                        continue;
+                    }
+                    else
+                    {
+                        badInput = false;
+                        return newWord;
+                    }
                 }
-                else if (playCheck == -2)
+                catch (FormatException)
                 {
-                    continue;
+                    Console.WriteLine("Please make another attempt to enter a string");
                 }
-                else
+                catch (Exception monkeybutt)
                 {
-                    Console.WriteLine();
+                    Console.WriteLine($"You threw an {monkeybutt}! I'm not sure how you messed up a string!");
                 }
+                Console.WriteLine("Please make another attempt to enter a string");
             }
-            Console.WriteLine("Game Over!");
-            return 1;
+            return "default";
         }
-
-        // start a new game
-        static int NewGame()
-        {
-            Console.WriteLine("Sorry, this part of the game is still under construction!");
-            // wipe out where the current word is
-            // also wipe out the current guesses
-            // search for a new random word
-            // write the random word to the file
-            return 3;
-        }
-
-        // View words in the text file
-        static int ViewWords(string filePath)
-        {
-            // just display all the words
-            Console.WriteLine("Sorry, this part of the game is still under construction!");
-            return 4;
-        }
-
-        // add a word to the text file
-        static int AddWords(string filePath)
-        {
-
-        return 5;
-        }
-
-
-
-        // Remove words from a text file
-        static int RemoveWords(string filePath)
-        {
-            // take text input for the word to be deleted 
-            // search for the word in the file and delete it
-            Console.WriteLine("Sorry, this part of the game is still under construction!");
-            return 6;
-        }
-        // exit the game
-        static int ExitGame()
-        {
-            // this just breaks the loop in the controlling function
-            return 6;
-        }
-
-        /***** private helper methods *****/
-
+        
         // create the file if it doesn't exist
-        private static void NoFile(string filePath)
+        private static void CreateFile(string filePath)
         {
+            using (StreamWriter sw = File.CreateText(filePath))
+            {
+                sw.WriteLine("fiddlesticks");
+            }
+            /* I can also use this, but I think my implementation is cleaner, byte is not the best
             using (FileStream fs = File.Create(filePath))
             {
-                // TODO make this better, byte isn't good
                 Byte[] myText = new UTF8Encoding(true).GetBytes("fiddlesticks");
+                fs.Write (myText, 0, myText.Length);
+            }*/
+        }
 
-                fs.Write(myText, 0, myText.Length);
+        // add a word to the file C in CRUD
+        private static void AppendFile(string filePath, string newWord)
+        {
+            using (StreamWriter sw = File.AppendText(filePath))
+            {
+                sw.WriteLine(newWord);
             }
+        }
+
+        // read the file R in CRUD
+        private static string[] ReadFile(string filePath)
+        {
+            using (StreamReader sr = File.OpenText(filePath))
+            {
+                string[] words = File.ReadAllLines(filePath);
+                return words;
+            }
+        }
+
+        // delete the file D in CRUD
+        private static void DeleteFile(string filePath) => File.Delete(filePath);
+
+        // deletes a single file from the word list U in CRUD (kind of): this is the part where I really wish the client allowed a database
+        private static void DeleteFileWord(string filePath, string oldWord, string[] words)
+        {
+            try
+            {
+                // delete the file
+                DeleteFile(filePath);
+                // recreate the file
+                CreateFile(filePath);
+                // add the words back minus the deleted word
+                foreach (string word in words)
+                {
+                    if (word == "fiddlesticks" || word == oldWord)
+                        continue;
+                    else
+                        AppendFile(filePath, word);
+                }
+            }
+            catch
+            {
+                Console.WriteLine("Whoops, something is broken! :(");
+            }
+
         }
     }
 }
@@ -223,21 +416,17 @@ namespace WordGuessGame
     The program(should) contain the following
     Methods for each action(
         Home navigation, DONE
-        View words in the text file, 
-        add a word to the text file, 
-        Remove words from a text file, 
+        View words in the text file, DONE
+        add a word to the text file,  DONE
+        Remove words from a text file, DONE
         exit the game, DONE
-        start a new game, 
-        play the game)
+        start a new game, DONE
+        play the game DONE
     When playing a game, you should: 
-        bring in all the words that exist in the text file, 
-        and randomly select one of the words to output to the conole for the user to guess
-    You should have a record the letters they have attempted so far
-    If they guess a correct letter, display that letter in the console for them to refer back to when making guesses(i.e.C _ T S)
-    Errors should be handled through try/catch statements
-    You may use any shortcuts or 'helper' methods in this project.Do not create external classes to accomplish this task.
-
-    2 hours in: 188 lines of code without doing any file I/O, some good scaffolding
-
-    relied heavily on the demo from class 3
+        bring in all the words that exist in the text file, DONE
+        and randomly select one of the words to output to the conole for the user to guess DONE
+    You should have a record the letters they have attempted so far DONE
+    If they guess a correct letter, display that letter in the console for them to refer back to when making guesses(i.e.C _ T S) DONE
+    Errors should be handled through try/catch statements DONE
+    You may use any shortcuts or 'helper' methods in this project.Do not create external classes to accomplish this task. DONE
  */
