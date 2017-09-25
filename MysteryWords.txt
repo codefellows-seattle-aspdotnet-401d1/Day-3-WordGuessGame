@@ -1,5 +1,3 @@
 hippo
 code
 meow
-llama
-car

@@ -85,12 +85,12 @@ namespace lab03_tom
 
             string[] words = File.ReadAllLines(filePath);
             var r = new Random();
-            var randomLineNumber = r.Next(0, words.Length - 1);
+            var randomLineNumber = r.Next(0, words.Length);
             string line = words[randomLineNumber];
 
 
             Console.WriteLine("Guess the mystery word!");
-            string guess = Console.ReadLine();
+            string guess = Console.ReadLine().ToLower();
 
             if (guess == line)
             {
